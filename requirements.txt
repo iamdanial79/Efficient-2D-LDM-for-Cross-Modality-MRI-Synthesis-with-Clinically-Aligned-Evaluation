@@ -1,0 +1,21 @@
+# Medical Imaging Frameworks (Includes AutoencoderKL & DiffusionModelUNet)
+monai
+monai-generative
+torchio
+nibabel
+
+# Metrics & Image Processing
+pytorch-msssim
+scikit-image
+scipy
+
+# Data & Visualization
+numpy
+pandas
+matplotlib
+seaborn
+tqdm
+
+torch==2.5.1
+torchvision==0.20.1
+torchaudio==2.5.1
