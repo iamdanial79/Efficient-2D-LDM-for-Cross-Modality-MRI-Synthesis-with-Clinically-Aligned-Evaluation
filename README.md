@@ -4,82 +4,50 @@
 
 Danial Derayati, Hanieh Naderi — University of Tehran, College of Interdisciplinary Science and Technologies
 
-[Paper](#) · [Data (BraTS 2020)](https://www.med.upenn.edu/cbica/brats2020/data.html) · [License](#license)
+This repository accompanies the manuscript submitted to *Computerized Medical Imaging and Graphics*. It provides the code used to produce all results, tables, and figures reported in the paper, in support of reproducibility during review.
 
 ---
 
 ## Overview
 
-This repository contains the implementation for a 2D latent diffusion model (LDM) that synthesizes **FLAIR** MRI images from **T1-contrast-enhanced (T1ce)** scans, trained on the [BraTS 2020](https://www.med.upenn.edu/cbica/brats2020/data.html) dataset using a **single consumer-grade GPU** (NVIDIA RTX 3050, 6GB VRAM).
+This work presents a 2D latent diffusion model (LDM) that synthesizes **FLAIR** MRI images from **T1-contrast-enhanced (T1ce)** scans, trained on the [BraTS 2020](https://www.med.upenn.edu/cbica/brats2020/data.html) dataset using a single consumer-grade GPU (NVIDIA RTX 3050, 6GB VRAM). The LDM is compared against GAN and Transformer baselines trained under identical, controlled conditions.
 
-Most cross-modality MRI synthesis work evaluates outputs using only pixel-similarity metrics (PSNR, SSIM), which correlate poorly with diagnostic quality. This project introduces **task-based clinical detectability metrics** — gCNR, gSNR, and d′ (per AAPM TG-233) — alongside conventional metrics, and benchmarks the LDM against GAN and Transformer baselines trained under identical, controlled conditions.
+Rather than relying solely on pixel-similarity metrics (PSNR, SSIM), which correlate poorly with diagnostic quality, this work introduces **task-based clinical detectability metrics** — gCNR, gSNR, and d′ (per AAPM TG-233) — to the evaluation protocol.
 
-## Key Results
+## Key Result
 
-| Method | PSNR↑ | SSIM↑ | gCNR↑ (retention) | d′/gSNR↑ (retention) |
-|---|---|---|---|---|
-| GAN | 18.47 ± 2.41 | 0.5765 ± 0.0558 | 0.4783 ± 0.1063 (79.4%) | 1.8376 ± 0.4704 (75.6%) |
-| TransUNet | **20.39 ± 2.89** | **0.6798 ± 0.0613** | 0.5013 ± 0.1028 (83.3%) | 1.9408 ± 0.4771 (79.9%) |
-| **LDM (proposed, final)** | 15.28 ± 2.56 | 0.4999 ± 0.0763 | **0.5258 ± 0.1334 (87.3%)** | **2.0767 ± 0.6382 (85.4%)** |
+On the common fair evaluation set (n = 43 validation slices), the proposed LDM achieves the strongest clinical detectability performance among the compared methods:
 
-The proposed LDM trails the baselines on raw pixel-fidelity metrics but achieves the **strongest clinical detectability scores** — i.e., it best preserves tumor-to-background contrast, the property most relevant to diagnostic use. See the paper for the full comparison, ablations, and statistical tests.
+- **gCNR** = 0.5258 ± 0.1334 (87.3% retention relative to ground truth)
+- **d′/gSNR** = 2.0767 ± 0.6382 (85.4% retention)
 
-## What's in This Repository
+while GAN and Transformer baselines score higher on conventional pixel-fidelity metrics (PSNR, SSIM, LPIPS). Full results, ablations, and statistical tests are reported in the manuscript (Sections 5.1–5.6).
 
-```
-├── data/                  # BraTS 2020 preprocessing scripts (does NOT include raw data)
-│   ├── preprocess.py      # Cropping, normalization, patient-level splitting
-│   └── dataset.py         # PyTorch Dataset / DataLoader definitions
-├── models/
-│   ├── vae.py             # AutoencoderKL (MONAI) definition and training
-│   ├── ldm.py             # Conditional DiffusionModelUNet (MONAI) + DDPM/DDIM
-│   ├── gan_baseline.py     # Pix2Pix-style conditional GAN
-│   └── transformer_baseline.py  # U-Net + self-attention bottleneck
-├── training/
-│   ├── train_vae.py
-│   ├── train_ldm.py
-│   ├── train_gan.py
-│   └── train_transformer.py
-├── evaluation/
-│   ├── metrics.py          # PSNR, SSIM, LPIPS, MAE, gCNR, gSNR, d′
-│   ├── fair_comparison.py  # Reproduces Table 2 (main comparison)
-│   ├── schedule_ablation.py # Reproduces Tables 4 & 7 (noise-schedule ablation)
-│   └── conditioning_sensitivity.py # Reproduces Tables 5 & 6 (wrong-patient test)
-├── configs/                # YAML configs for each experiment
-├── results/                # Output figures, tables, and generated samples
-├── requirements.txt
-└── README.md
-```
+## Repository Contents
 
-## Installation
+This repository contains the full implementation used in the study, including:
 
-```bash
-git clone https://github.com/<your-username>/<your-repo-name>.git
-cd <your-repo-name>
-python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-**Requirements:** Python ≥3.9, PyTorch ≥2.0, [MONAI](https://monai.io/) (`generative` package), NumPy, SciPy, scikit-image, matplotlib.
+- Data preprocessing for BraTS 2020 (cropping, normalization, patient-level splitting)
+- The variational autoencoder (VAE) and conditional latent diffusion model (DDPM/DDIM)
+- The GAN (pix2pix-style) and Transformer baseline implementations
+- Evaluation code for all reported metrics (PSNR, SSIM, LPIPS, MAE, gCNR, gSNR, d′)
+- Scripts reproducing the noise-schedule ablation and the conditioning-sensitivity experiment
 
 ## Data
 
-This project uses the **BraTS 2020** dataset, which is **not included** in this repository due to licensing terms. Register and download it from the official source:
+This project uses the **BraTS 2020** dataset, which is **not redistributed** in this repository due to its licensing terms. It is available directly from the official source:
 
 👉 https://www.med.upenn.edu/cbica/brats2020/data.html
 
-After downloading, update the data path in `configs/data_config.yaml` and run:
-
-
-Default inference configuration: DDIM sampling, 200 steps, classifier-free guidance scale = 2.6, η = 1.0 (identified via a 9-configuration sweep — see paper Section 4).
+No new human-subject data were collected for this study; all imaging data are the publicly available, de-identified BraTS 2020 release.
 
 ## Reproducibility Notes
 
-- All models are trained on an identical patient-level train/validation split (seed=42, validation fraction=0.1).
-- The main comparison (Table 2) evaluates all methods on the same 43 held-out validation slices.
-- A normalization mismatch between VAE training and latent construction (min-max vs. percentile-clipped) was identified and corrected during development — see paper Section 5.5. Preprocessing in this repo uses the corrected, percentile-clipped pipeline.
-- Multi-seed validation (seeds 42, 123, 2024) is provided for the schedule-comparison ablation only (Section 5.6), not the main comparison.
+- All three models (LDM, GAN, Transformer) are trained and evaluated on an identical patient-level train/validation split (seed = 42, validation fraction = 0.1).
+- The main comparison (Table 2 in the manuscript) evaluates all methods on the same held-out validation slices, using the same preprocessing and metric implementation.
+- A normalization inconsistency identified during development (between VAE training and latent construction) was corrected prior to final results; this is documented in the manuscript (Section 5.5) for transparency.
+- Multi-seed validation (three random seeds) is reported for the noise-schedule ablation specifically (Section 5.6), to confirm result stability.
+
 
 
 ## License
@@ -88,10 +56,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 Note: this license covers the **code** in this repository only. The BraTS 2020 dataset is governed by its own separate license and usage terms set by the dataset organizers.
 
-## Acknowledgements
-
-Built with [MONAI](https://monai.io/) and [PyTorch](https://pytorch.org/). Data provided by the [BraTS 2020](https://www.med.upenn.edu/cbica/brats2020/data.html) challenge organizers.
-
 ## Contact
 
-Danial Derayati — danial.derayati79@gmail.com
+Danial Derayati — danial.derayati@ut.ac.ir
+Hanieh Naderi — hanieh.naderi@ut.ac.ir
