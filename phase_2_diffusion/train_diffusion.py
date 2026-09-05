@@ -10,7 +10,7 @@ from torch.optim.lr_scheduler import CosineAnnealingLR
 # 1. IMPORTS
 # ==========================================
 from generative.networks.nets import DiffusionModelUNet
-from src.latent_dataset import PairedLatentDataset
+from latent_dataset import PairedLatentDataset
 from generative.networks.schedulers import DDPMScheduler
 import pandas as pd
 

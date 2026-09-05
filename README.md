@@ -23,6 +23,12 @@ On the common fair evaluation set (n = 43 validation slices), the proposed LDM a
 
 while GAN and Transformer baselines score higher on conventional pixel-fidelity metrics (PSNR, SSIM, LPIPS). Full results, ablations, and statistical tests are reported in the manuscript (Sections 5.1–5.6).
 
+## Samples of results
+![Figure 0](final_pics\sample_all_model\BraTS20_Training_011_slice90_full_analysis.png)
+---
+![Figure 1](final_pics\sample_ddim_generation\BraTS20_Training_249_slice80_final.png)
+---
+![Figure 2](final_pics\smaple_compare\BraTS20_Training_298_slice70.png)
 ## Repository Contents
 
 This repository contains the full implementation used in the study, including:

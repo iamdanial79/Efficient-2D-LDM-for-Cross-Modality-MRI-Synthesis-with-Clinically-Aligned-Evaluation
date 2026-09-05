@@ -4,7 +4,7 @@ import random
 import time
 import torch
 import torch.nn as nn
-import torch.optim as optim
+
 import numpy as np
 from pathlib import Path
 from tqdm import tqdm
@@ -15,7 +15,7 @@ import nibabel as nib
 # 1. SETUP
 # ==========================================
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-DATA_ROOT = "/BraTS2020_TrainingData/MICCAI_BraTS2020_TrainingData"
+DATA_ROOT = "/BraTS20s20_TrainingData/MICCAI_BraTS2020_TrainingData"
 SAVE_DIR = Path("transformer_baseline_outputs")
 SAVE_DIR.mkdir(exist_ok=True)
 

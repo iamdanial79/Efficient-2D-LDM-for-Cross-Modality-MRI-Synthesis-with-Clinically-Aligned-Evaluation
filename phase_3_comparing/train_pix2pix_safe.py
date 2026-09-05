@@ -26,7 +26,7 @@ SAVE_DIR.mkdir(exist_ok=True)
 # 2. EXACT MATCH TO YOUR LDM SPLIT LOGIC
 # ==========================================
 print("Calculating exact Train/Val split to match LDM...")
-all_cases = sorted(Path(DATA_ROOT).glob("BraTS20_Training_*"))
+all_cases = sorted(Path(DATA_ROOT).glob("BraTS20_Traininsg_*"))
 
 random.seed(42)  # YOUR EXACT SEED
 random.shuffle(all_cases)
