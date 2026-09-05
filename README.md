@@ -2,7 +2,7 @@
 
 **An Efficient 2D Latent Diffusion Framework for Cross-Modality MRI Synthesis with Clinically-Aligned Evaluation**
 
-Danial Derayati, Hanieh Naderi — University of Tehran, College of Interdisciplinary Science and Technologies
+
 
 This repository accompanies the manuscript submitted to *Computerized Medical Imaging and Graphics*. It provides the code used to produce all results, tables, and figures reported in the paper, in support of reproducibility during review.
 
@@ -58,5 +58,4 @@ Note: this license covers the **code** in this repository only. The BraTS 2020 d
 
 ## Contact
 
-Danial Derayati — danial.derayati@ut.ac.ir
-Hanieh Naderi — hanieh.naderi@ut.ac.ir
+Danial Derayati — danial.derayati79@gmail.com
