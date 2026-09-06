@@ -58,6 +58,3 @@ This project is licensed under the [MIT License](LICENSE).
 
 Note: this license covers the **code** in this repository only. The BraTS 2020 dataset is governed by its own separate license and usage terms set by the dataset organizers.
 
-## Contact
-
-Danial Derayati — danial.derayati79@gmail.com
